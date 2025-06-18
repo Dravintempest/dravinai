@@ -3,68 +3,239 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rafxz-Ai Chat</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Dravin AI Chat</title>
+    <style>
+        /* style.css content goes here */
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f0f2f5;
+            margin: 0;
+            color: #333;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 500px;
+            text-align: center;
+        }
+
+        .section {
+            margin-bottom: 20px;
+        }
+
+        .section.hidden {
+            display: none;
+        }
+
+        h1, h2 {
+            color: #5c677d;
+            margin-bottom: 20px;
+        }
+
+        input[type="text"] {
+            width: calc(100% - 20px);
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #chat-box {
+            border: 1px solid #eee;
+            padding: 15px;
+            min-height: 250px;
+            max-height: 350px;
+            overflow-y: auto;
+            text-align: left;
+            margin-bottom: 15px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+        }
+
+        .chat-message {
+            margin-bottom: 10px;
+            padding: 8px 12px;
+            border-radius: 8px;
+            max-width: 80%;
+            word-wrap: break-word;
+        }
+
+        .chat-message.user {
+            background-color: #dcf8c6;
+            margin-left: auto;
+            text-align: right;
+        }
+
+        .chat-message.dravin {
+            background-color: #e0e0e0;
+            text-align: left;
+        }
+
+        .chat-input-area {
+            display: flex;
+            gap: 10px;
+        }
+
+        .chat-input-area input {
+            flex-grow: 1;
+            margin-bottom: 0; /* Override default margin */
+        }
+    </style>
 </head>
 <body>
-    <header>
-        <h1>Rafxz-Ai Chat</h1>
-        <button class="theme-toggle" id="themeToggle">🌓</button>
-    </header>
+    <div class="container">
+        <div id="name-input-section" class="section">
+            <h1>Selamat Datang di Dravin AI!</h1>
+            <p>Masukkan nama kamu untuk memulai percakapan yang asik:</p>
+            <input type="text" id="user-name-input" placeholder="Nama kamu...">
+            <button id="start-chat-button">Mulai Chat</button>
+        </div>
 
-    <div class="setup-screen" id="setupScreen">
-        <h2>Mulai Chat dengan Rafxz-Ai</h2>
-        <p>Masukkan nama Anda untuk memulai percakapan dengan AI</p>
-        
-        <input type="text" id="userName" placeholder="Nama Anda..." required>
-        
-        <button class="btn" id="startChatBtn">Mulai Chat</button>
-    </div>
-
-    <div class="chat-container" id="chatContainer">
-        <div class="chat-controls">
-            <button id="settingsBtn">⚙️</button>
-            <button id="resetChatBtn">🔄</button>
-        </div>
-        
-        <div class="settings-panel" id="settingsPanel">
-            <h3>Pengaturan Chat</h3>
-            <div class="bg-options">
-                <div class="bg-option selected" style="background-color: #f5f5f5;" data-bg="none"></div>
-                <div class="bg-option" style="background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);" data-bg="linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)"></div>
-                <div class="bg-option" style="background: linear-gradient(to right, #ffefba, #ffffff);" data-bg="linear-gradient(to right, #ffefba, #ffffff)"></div>
-                <div class="bg-option" style="background: url('https://images.unsplash.com/photo-1519681393784-d120267933ba?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') center/cover;" data-bg="url('https://images.unsplash.com/photo-1519681393784-d120267933ba?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') center/cover"></div>
-                <div class="bg-option" style="background: url('https://images.unsplash.com/photo-1519120944692-1a8d8cfc107f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') center/cover;" data-bg="url('https://images.unsplash.com/photo-1519120944692-1a8d8cfc107f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') center/cover"></div>
-                <div class="bg-option" style="background: url('https://images.unsplash.com/photo-1506318137071-a8e063b4bec0?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') center/cover;" data-bg="url('https://images.unsplash.com/photo-1506318137071-a8e063b4bec0?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') center/cover"></div>
+        <div id="chat-section" class="section hidden">
+            <h2>Ngobrol Bareng Dravin AI</h2>
+            <div id="chat-box">
+                </div>
+            <div class="chat-input-area">
+                <input type="text" id="chat-message-input" placeholder="Ketik pesanmu...">
+                <button id="send-chat-button">Kirim</button>
             </div>
-            <button class="btn upload-btn">
-                Upload Background
-                <input type="file" id="bgUpload" accept="image/*">
-            </button>
-        </div>
-        
-        <div class="chat-header">
-            <img id="chatCharacterAvatar" src="https://qu.ax/pSXln.jpg" alt="Rafxz-Ai">
-            <h2>Rafxz-Ai</h2>
-        </div>
-        <div class="chat-messages" id="chatMessages">
-            <!-- Messages will appear here -->
-        </div>
-        <div class="typing-indicator" id="typingIndicator">
-            <div class="typing-dots">
-                <div class="typing-dot"></div>
-                <div class="typing-dot"></div>
-                <div class="typing-dot"></div>
-            </div>
-        </div>
-        <div class="chat-input">
-            <div class="input-container">
-                <input type="text" id="userInput" placeholder="Ketik pesan Anda...">
-            </div>
-            <button id="sendBtn">Kirim</button>
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script>
+        // script.js content goes here
+        document.addEventListener('DOMContentLoaded', () => {
+            const nameInputSection = document.getElementById('name-input-section');
+            const chatSection = document.getElementById('chat-section');
+            const userNameInput = document.getElementById('user-name-input');
+            const startChatButton = document.getElementById('start-chat-button');
+            const chatBox = document.getElementById('chat-box');
+            const chatMessageInput = document.getElementById('chat-message-input');
+            const sendChatButton = document.getElementById('send-chat-button');
+
+            let userName = '';
+
+            // Function to save user name to local storage
+            const saveUserName = (name) => {
+                localStorage.setItem('dravin_user_name', name);
+            };
+
+            // Function to load user name from local storage
+            const loadUserName = () => {
+                return localStorage.getItem('dravin_user_name');
+            };
+
+            // Function to display a message in the chat box
+            const displayMessage = (sender, message) => {
+                const messageElement = document.createElement('div');
+                messageElement.classList.add('chat-message');
+                messageElement.classList.add(sender);
+                messageElement.textContent = message;
+                chatBox.appendChild(messageElement);
+                chatBox.scrollTop = chatBox.scrollHeight; // Auto-scroll to the bottom
+            };
+
+            // Simulate Dravin AI's response
+            const getDravinResponse = (userMessage) => {
+                const lowerCaseMessage = userMessage.toLowerCase();
+                if (lowerCaseMessage.includes('halo') || lowerCaseMessage.includes('hai')) {
+                    return `Halo juga, ${userName}! Ada yang bisa Dravin bantu?`;
+                } else if (lowerCaseMessage.includes('bagaimana kabarmu')) {
+                    return 'Dravin baik-baik saja! Terima kasih sudah bertanya. Kamu bagaimana?';
+                } else if (lowerCaseMessage.includes('nama kamu siapa')) {
+                    return 'Aku Dravin AI, siap nemenin kamu ngobrol asik!';
+                } else if (lowerCaseMessage.includes('terima kasih')) {
+                    return 'Sama-sama! Senang bisa membantu.';
+                } else if (lowerCaseMessage.includes('cerita lucu')) {
+                    return 'Kenapa burung suka ke mall? Karena di mall banyak diskon! Hahaha.';
+                } else if (lowerCaseMessage.includes('apa yang bisa kamu lakukan')) {
+                    return 'Aku bisa ngobrol, menjawab pertanyaan sederhana, atau sekadar jadi teman chatmu. Coba tanya apa saja!';
+                } else if (lowerCaseMessage.includes('selamat tinggal') || lowerCaseMessage.includes('bye')) {
+                    return 'Sampai jumpa lagi, semoga harimu menyenangkan!';
+                } else {
+                    const responses = [
+                        `Menarik sekali, ${userName}. Ceritakan lebih banyak!`,
+                        'Oh, begitu ya. Lanjutkan!',
+                        'Aku mengerti.',
+                        'Ada hal lain yang ingin kamu diskusikan?',
+                        `Itu pemikiran yang bagus, ${userName}.`
+                    ];
+                    return responses[Math.floor(Math.random() * responses.length)];
+                }
+            };
+
+            // Event listener for starting the chat
+            startChatButton.addEventListener('click', () => {
+                const inputName = userNameInput.value.trim();
+                if (inputName) {
+                    userName = inputName;
+                    saveUserName(userName);
+                    nameInputSection.classList.add('hidden');
+                    chatSection.classList.remove('hidden');
+                    displayMessage('dravin', `Halo, ${userName}! Selamat datang di Dravin AI. Senang bisa ngobrol denganmu.`);
+                    chatMessageInput.focus();
+                } else {
+                    alert('Mohon masukkan nama kamu!');
+                }
+            });
+
+            // Event listener for sending chat messages
+            const sendChatMessage = () => {
+                const userMessage = chatMessageInput.value.trim();
+                if (userMessage) {
+                    displayMessage('user', userMessage);
+                    chatMessageInput.value = ''; // Clear the input field
+
+                    // Simulate Dravin AI's response after a short delay
+                    setTimeout(() => {
+                        const dravinResponse = getDravinResponse(userMessage);
+                        displayMessage('dravin', dravinResponse);
+                    }, 500); // 0.5 second delay
+                }
+            };
+
+            sendChatButton.addEventListener('click', sendChatMessage);
+
+            chatMessageInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    sendChatMessage();
+                }
+            });
+
+            // Check if user name already exists in local storage on page load
+            const storedName = loadUserName();
+            if (storedName) {
+                userName = storedName;
+                nameInputSection.classList.add('hidden');
+                chatSection.classList.remove('hidden');
+                displayMessage('dravin', `Halo kembali, ${userName}! Senang melihatmu lagi.`);
+                chatMessageInput.focus();
+            }
+        });
+    </script>
 </body>
 </html>
